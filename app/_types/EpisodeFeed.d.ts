@@ -12,7 +12,7 @@ export interface EpisodeFeed {
 }
 
 export interface Entry {
-    author:             Author;
+    author:             string;
     author_detail:      AuthorDetail;
     authors:            AuthorDetail[];
     content:            RightsDetail[];
@@ -32,14 +32,14 @@ export interface Entry {
     title_detail:       RightsDetail;
 }
 
-export enum Author {
-    AnchorPodcasts = "Anchor Podcasts",
-    PeoplesDispatch = "Peoples Dispatch",
-}
+// export enum Author {
+//     AnchorPodcasts = "Anchor Podcasts",
+//     PeoplesDispatch = "Peoples Dispatch",
+// }
 
-export interface AuthorDetail {
-    name: Author;
-}
+// export interface AuthorDetail {
+//     name: Author;
+// }
 
 export interface RightsDetail {
     base:     string;

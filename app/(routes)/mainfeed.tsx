@@ -1,5 +1,5 @@
 
-import { EpisodeFeed, Feed } from "../_types/EpisodeFeed";
+import { EpisodeFeed, Feed, Link } from "../_types/EpisodeFeed";
 // export type MainFeedProps = {
     
 //     // link: string;
@@ -30,15 +30,16 @@ import { EpisodeFeed, Feed } from "../_types/EpisodeFeed";
 
 
 
-export default function MainFeed({title, image, author, subtitle_detail} : Feed) {
+export default function MainFeed({title, image, author, subtitle_detail} : Feed, {href} : Link) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="flex flex-col gap-2 place-items-center episode-card bg-neutral-950 bg-opacity-50 my-2 text-center mx-2 py-2">
         {/* <div>{episodeFeed.feed.title}</div>
         <div>{episodeFeed.feed}</div> */}
         <div>{title}</div>
         <div>{author}</div>
         <img src={image} />
-        <div dangerouslySetInnerHTML={{__html: subtitle_detail}}/>
-      </main>
+        {/* <div style={{textAlign: 'center'}} dangerouslySetInnerHTML={{__html: subtitle_detail}}/> */}
+        <a href={href}>Audio {href}</a>
+      </div>
     );
 }

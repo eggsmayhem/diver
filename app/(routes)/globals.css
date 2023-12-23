@@ -17,6 +17,8 @@
 }
 
 body {
+  box-sizing: border-box;
+  overflow-y: hidden;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,4 +26,60 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+/* feed */
+.feed-wrapper {
+  position: absolute;
+  left: 0;
+  transition: transform 1s ease-in-out;
+}
+
+.feed-wrapper.hide {
+  transform: translateX(-100%);
+}
+
+.feed-wrapper.show {
+  transform: translateX(0);
+}
+
+.feed-button {
+  position: absolute;
+  left: 74vw;
+  width: 120px;
+  height: 35px;
+  margin-top: 39vh;
+  transform: rotate(90deg);
+  transition: transform 1s ease-in-out;
+} 
+
+.feed-button.hide {
+  transform: translateX(-300%) rotate(90deg);
+}
+
+.feed-button.show {
+  transform: translateX(0) rotate(90deg);
+}
+
+.feed-arrow {
+  z-index: 10;
+  position: absolute;
+  left: 83vw;
+  /* bottom: 80vh; */
+  /* width: 120px; */
+  margin-top: 30vh;
+  /* transform: rotate(90deg); */
+  transition: transform 1s ease-in-out;
+}
+
+.feed-arrow.hide {
+  transform: translateX(-875%) rotate(360deg);
+}
+
+.feed-arrow.show {
+  transform: translateX(0) rotate(180deg);
+}
+
+.episode-card > * {
+  width: 90%
 }
