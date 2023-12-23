@@ -30,13 +30,15 @@ import { EpisodeFeed, Feed } from "../_types/EpisodeFeed";
 
 
 
-export default function MainFeed({title, image} : Feed) {
+export default function MainFeed({title, image, author, subtitle_detail} : Feed) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         {/* <div>{episodeFeed.feed.title}</div>
         <div>{episodeFeed.feed}</div> */}
         <div>{title}</div>
+        <div>{author}</div>
         <img src={image} />
+        <div dangerouslySetInnerHTML={{__html: subtitle_detail}}/>
       </main>
     );
 }
