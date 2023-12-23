@@ -28,9 +28,14 @@ import { EpisodeFeed, Feed, Link } from "../_types/EpisodeFeed";
 //     link: string;
 // }
 
+export interface FormattedFeed {
+    title: string;
+    image: string;  
+    author: string;
+    audio: string;
+}
 
-
-export default function MainFeed({title, image, author, subtitle_detail} : Feed, {href} : Link) {
+export default function MainFeed({title, author, image, audio}: FormattedFeed) {
     return (
       <div className="flex flex-col gap-2 place-items-center episode-card bg-neutral-950 bg-opacity-50 my-2 text-center mx-2 py-2">
         {/* <div>{episodeFeed.feed.title}</div>
@@ -39,7 +44,7 @@ export default function MainFeed({title, image, author, subtitle_detail} : Feed,
         <div>{author}</div>
         <img src={image} />
         {/* <div style={{textAlign: 'center'}} dangerouslySetInnerHTML={{__html: subtitle_detail}}/> */}
-        <a href={href}>Audio {href}</a>
+        {/* <audio src={audio}>Audio {audio}</audio> */}
       </div>
     );
 }

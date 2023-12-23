@@ -9,6 +9,8 @@ import { SetStateAction, useEffect, useState } from 'react';
 // }
 import DummyFeed from '../_assets/DummyFeed';
 import { EpisodeFeed, Link } from '../_types/EpisodeFeed';
+import { FormattedFeed } from './mainfeed';
+import AudioPlayer from '../_components/AudioPlayer';
 
 export default function Home() {
   /* Section for fetching
@@ -48,7 +50,7 @@ export default function Home() {
    * 
    */
 
-  const [userFeed, setUserFeed] = useState<Array<Feed | Link>>([DummyFeed]);
+  const [userFeed, setUserFeed] = useState<FormattedFeed[]>([]);
   const [showFeed, setShowFeed] = useState<boolean>(true);
 
   const handleFeedDisplay = () => {
@@ -57,7 +59,7 @@ export default function Home() {
 
   
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/get-multiple-feeds', {
+    fetch('http://127.0.0.1:5000/get-multiple-feeds-formatted', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -72,7 +74,7 @@ export default function Home() {
       console.log(response);
       return response; 
   })
-    .then((feed: Array<EpisodeFeed>) =>  feed.map(item => Object.assign({}, {image: item['feed']['image']['href'], author: item['feed']['author'], title: item['feed']['title'], subtitle: item['feed']['subtitle_detail']['value'], href: item.entries[1].links[0].href})))
+    .then((feed: string[][]) =>  feed.map(item => Object.assign({}, {title: item[0], author: item[1], image: item[2], audio: item[3]})))
     .then(feed => setUserFeed(feed));
     console.log(userFeed);
   }, []);
@@ -88,8 +90,11 @@ export default function Home() {
          <div className={`feed-wrapper ${showFeed ? 'show' : 'hide'} bg-gradient-to-r from-blue-300 to-purple-800`} style={{ height: '90vh', overflowY: 'scroll', width: '85vw' }}>
          { 
           userFeed?.map((feed) => 
-          <MainFeed title={feed.title} image={feed.image} author={feed.author} subtitle_detail={feed.subtitle} href={feed.href}/>
-          ) }
+            <>
+              <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
+              <AudioPlayer url={feed.audio}/>
+            </>
+          )}
           </div>
           <button type="button" className={`feed-arrow ${showFeed ? 'show' : 'hide'} text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`} onClick={handleFeedDisplay}>
             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
