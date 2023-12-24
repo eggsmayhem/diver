@@ -42,7 +42,7 @@ export default function MainFeed({title, author, image, audio}: FormattedFeed) {
         <div>{episodeFeed.feed}</div> */}
         <div>{title}</div>
         <div>{author}</div>
-        <img src={image} />
+        <img style={{height: '150px', width: '150px'}} src={image} />
         {/* <div style={{textAlign: 'center'}} dangerouslySetInnerHTML={{__html: subtitle_detail}}/> */}
         {/* <audio src={audio}>Audio {audio}</audio> */}
       </div>

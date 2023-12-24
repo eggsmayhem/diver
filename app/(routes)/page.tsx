@@ -53,9 +53,15 @@ export default function Home() {
 
   const [userFeed, setUserFeed] = useState<FormattedFeed[]>([]);
   const [showFeed, setShowFeed] = useState<boolean>(true);
+  const [nowPlaying, setNowPlaying] = useState<string>("");
 
   const handleFeedDisplay = () => {
     setShowFeed(!showFeed);
+  }
+
+  const handleCurrentlyPlaying = (e: Event, url: string) => {
+    const currentlyPlaying = userFeed.filter(feed => feed.audio === url);
+    setNowPlaying(currentlyPlaying[0].title);
   }
 
   
@@ -88,13 +94,13 @@ export default function Home() {
   
         <div>
          {/* <div className="feed-wrapper bg-gradient-to-r from-blue-300 to-purple-800" style={{ height: '90vh', overflowY: 'scroll', width: '75vw' }}> */}
-         <div className={`feed-wrapper ${showFeed ? 'show' : 'hide'} bg-gradient-to-r from-blue-300 to-purple-800`} style={{ height: '90vh', overflowY: 'scroll', width: '85vw' }}>
+         <div className={`feed-wrapper ${showFeed ? 'show' : 'hide'} bg-gradient-to-r from-blue-300 to-purple-800 mt-10`} style={{ height: '90vh', overflowY: 'scroll', width: '85vw' }}>
          { 
           userFeed?.map((feed) => 
             <>
               <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
               {/* <AudioPlayer url={feed.audio}/> */}
-              <PremadeAudioPlayer url={feed.audio}/>
+              <PremadeAudioPlayer url={feed.audio} onPlay={handleCurrentlyPlaying}/>
             </>
           )}
           </div>
@@ -102,15 +108,19 @@ export default function Home() {
             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
             </svg>
-            <span className="sr-only">Icon description</span>
           </button>
           <button type="button" className={`feed-button ${showFeed ? 'show' : 'hide'} bg-yellow-500 text-black`} onClick={handleFeedDisplay}>My podcasts</button>
 
          </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+      
+      {/* <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+      </div> */}
+      <div className="flex flex-col text-white absolute bottom-0 left-20 text-center">
+        <div>Now Playing:</div>
+      <div>{nowPlaying}</div>
       </div>
+   
     </main>
   )
 }
