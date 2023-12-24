@@ -11,6 +11,7 @@ import DummyFeed from '../_assets/DummyFeed';
 import { EpisodeFeed, Link } from '../_types/EpisodeFeed';
 import { FormattedFeed } from './mainfeed';
 import AudioPlayer from '../_components/AudioPlayer';
+import PremadeAudioPlayer from '../_components/PremadeAudioPlayer';
 
 export default function Home() {
   /* Section for fetching
@@ -92,7 +93,8 @@ export default function Home() {
           userFeed?.map((feed) => 
             <>
               <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
-              <AudioPlayer url={feed.audio}/>
+              {/* <AudioPlayer url={feed.audio}/> */}
+              <PremadeAudioPlayer url={feed.audio}/>
             </>
           )}
           </div>
