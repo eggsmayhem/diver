@@ -61,7 +61,22 @@ export default function Home() {
 
   const handleCurrentlyPlaying = (e: Event, url: string) => {
     const currentlyPlaying = userFeed.filter(feed => feed.audio === url);
+    if (nowPlaying !== "") {
+      const oldCard = document.querySelector(`.${nowPlaying.split(' ').join('-')}`);
+      oldCard && oldCard.classList.remove('fullscreen-card');
+    }
+
     setNowPlaying(currentlyPlaying[0].title);
+    const card = document.querySelector(`.${currentlyPlaying[0].title.split(' ').join('-')}`);
+    card?.classList.add('fullscreen-card');
+    // if (card && card.requestFullscreen) {
+    //   card.requestFullscreen(); // Standard syntax
+    // } 
+  //   else if (card && card.webkitRequestFullscreen) {
+  //   card.webkitRequestFullscreen(); // Safari
+  //   } else if (card &&  card.msRequestFullscreen) {
+  //     card.msRequestFullscreen(); // IE11
+  //  }
   }
 
   
@@ -97,11 +112,11 @@ export default function Home() {
          <div className={`feed-wrapper ${showFeed ? 'show' : 'hide'} bg-gradient-to-r from-blue-300 to-purple-800 mt-10`} style={{ height: '90vh', overflowY: 'scroll', width: '85vw' }}>
          { 
           userFeed?.map((feed) => 
-            <>
+            <div className={feed.title.split(' ').join('-')}>
               <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
               {/* <AudioPlayer url={feed.audio}/> */}
               <PremadeAudioPlayer url={feed.audio} onPlay={handleCurrentlyPlaying}/>
-            </>
+            </div>
           )}
           </div>
           <button type="button" className={`feed-arrow ${showFeed ? 'show' : 'hide'} text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`} onClick={handleFeedDisplay}>

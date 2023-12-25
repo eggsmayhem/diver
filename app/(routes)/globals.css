@@ -83,3 +83,14 @@ body {
 .episode-card > * {
   width: 90%
 }
+
+.fullscreen-card {
+  z-index: 30;
+  padding-top: 35%;
+  left: 0;
+}
+
+.fullscreen-card > div img {
+  width: 400px !important;
+  height: 400px !important;
+}
