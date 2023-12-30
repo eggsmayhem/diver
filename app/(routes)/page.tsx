@@ -59,6 +59,17 @@ export default function Home() {
     setShowFeed(!showFeed);
   }
 
+  const handleEpisodeFullScreen = (e: Event) => {
+    const episodeButton = e.target as HTMLButtonElement;
+    const episodeCard = episodeButton.parentElement as HTMLDivElement;
+    if (episodeCard) {
+      episodeCard && episodeCard.classList.remove('fullscreen-card');
+    }
+    if (document.fullscreenElement) {
+    document.exitFullscreen();
+    }
+  }
+
   const handleCurrentlyPlaying = (e: Event, url: string) => {
     const currentlyPlaying = userFeed.filter(feed => feed.audio === url);
     if (nowPlaying !== "") {
@@ -69,9 +80,9 @@ export default function Home() {
     setNowPlaying(currentlyPlaying[0].title);
     const card = document.querySelector(`.${currentlyPlaying[0].title.split(' ').join('-')}`);
     card?.classList.add('fullscreen-card');
-    // if (card && card.requestFullscreen) {
-    //   card.requestFullscreen(); // Standard syntax
-    // } 
+    if (card && card.requestFullscreen) {
+      card.requestFullscreen(); // Standard syntax
+    } 
   //   else if (card && card.webkitRequestFullscreen) {
   //   card.webkitRequestFullscreen(); // Safari
   //   } else if (card &&  card.msRequestFullscreen) {
@@ -113,6 +124,11 @@ export default function Home() {
          { 
           userFeed?.map((feed) => 
             <div className={feed.title.split(' ').join('-')}>
+                  <button type="button" className={`episode-arrow ${feed.title === nowPlaying ? 'show' : 'hide'} text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`} onClick={handleEpisodeFullScreen}>
+                    <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                  </button>
               <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
               {/* <AudioPlayer url={feed.audio}/> */}
               <PremadeAudioPlayer url={feed.audio} onPlay={handleCurrentlyPlaying}/>

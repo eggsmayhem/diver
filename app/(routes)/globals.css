@@ -94,3 +94,14 @@ body {
   width: 400px !important;
   height: 400px !important;
 }
+
+/* .episode-arrow.show {
+  display: block;
+} */
+
+.episode-arrow.hide {
+  display: none;
+}
+.episode-arrow.show {
+  transform: translateX(0) rotate(180deg);
+}
