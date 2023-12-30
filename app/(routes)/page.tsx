@@ -12,6 +12,7 @@ import { EpisodeFeed, Link } from '../_types/EpisodeFeed';
 import { FormattedFeed } from './mainfeed';
 import AudioPlayer from '../_components/AudioPlayer';
 import PremadeAudioPlayer from '../_components/PremadeAudioPlayer';
+import SearchBox from '../_components/SearchBox';
 
 export default function Home() {
   /* Section for fetching
@@ -151,6 +152,8 @@ export default function Home() {
         <div>Now Playing:</div>
       <div>{nowPlaying}</div>
       </div>
+      <SearchBox />
+  
    
     </main>
   )
