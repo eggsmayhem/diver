@@ -105,3 +105,14 @@ body {
 .episode-arrow.show {
   transform: translateX(0) rotate(180deg);
 }
+
+/* Searchbox */
+/* .results-wrapper, .result-wrapper, .result-wrapper div {
+  max-width: 100vw;
+  over
+} */
+
+.searchbox-top {
+  height: 80vh;
+  overflow-y: scroll;
+}

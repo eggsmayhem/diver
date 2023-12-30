@@ -110,6 +110,7 @@ export default function Home() {
   })
     .then((feed: string[][]) =>  feed.map(item => Object.assign({}, {title: item[0], author: item[1], image: item[2], audio: item[3]})))
     .then(feed => setUserFeed(feed));
+    console.log('USER POD FEED')
     console.log(userFeed);
   }, []);
 
@@ -132,7 +133,7 @@ export default function Home() {
                   </button>
               <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
               {/* <AudioPlayer url={feed.audio}/> */}
-              <PremadeAudioPlayer url={feed.audio} onPlay={handleCurrentlyPlaying}/>
+              <PremadeAudioPlayer url={feed.audio} onPlay={handleCurrentlyPlaying} startTime={0}/>
             </div>
           )}
           </div>
