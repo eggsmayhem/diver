@@ -44,7 +44,7 @@ const PremadeAudioPlayer = ({ url, startTime }: AudioPlayerProps) => {
       autoPlay
       src={url}
       onPlay={onPlayHandler}
-      onListen={onPlayHandler}
+    //   onListen={setPlayerProgress}
       showFilledVolume={true}
       showFilledProgress={true}
       progressJumpStep={5000}
