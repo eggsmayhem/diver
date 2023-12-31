@@ -96,7 +96,7 @@ const SearchBox = () => {
                         {result.documents.map((text, index) => <button onClick={e =>loadPlayer(e, result.time_begins[index], result.audio_url)}>{text}</button>)}
                     </div>
                     </div>
-                    <div>{result.time_begins}</div>
+                    {/* <div>{result.time_begins}</div> */}
                 </div> 
             )}
             </div>
