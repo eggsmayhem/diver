@@ -55,9 +55,15 @@ export default function Home() {
   const [userFeed, setUserFeed] = useState<FormattedFeed[]>([]);
   const [showFeed, setShowFeed] = useState<boolean>(true);
   const [nowPlaying, setNowPlaying] = useState<string>("");
+  const [arrowButtonText, setArrowButtonText] = useState<string>("My New Episodes");
 
   const handleFeedDisplay = () => {
     setShowFeed(!showFeed);
+    if (showFeed) {
+      setArrowButtonText("View My Feed");
+    } else {
+      setArrowButtonText("View Search Results");
+    }
   }
 
   const handleEpisodeFullScreen = (e: Event) => {
@@ -71,15 +77,15 @@ export default function Home() {
     }
   }
 
-  const handleCurrentlyPlaying = (e: Event, url: string) => {
+  const handleCurrentlyPlaying = (_e: Event, url: string) => {
     const currentlyPlaying = userFeed.filter(feed => feed.audio === url);
     if (nowPlaying !== "") {
       const oldCard = document.querySelector(`.${nowPlaying.split(' ').join('-')}`);
       oldCard && oldCard.classList.remove('fullscreen-card');
     }
 
-    setNowPlaying(currentlyPlaying[0].title);
-    const card = document.querySelector(`.${currentlyPlaying[0].title.split(' ').join('-')}`);
+    setNowPlaying(currentlyPlaying[0].episodeName);
+    const card = document.querySelector(`.${currentlyPlaying[0].episodeName.split(' ').join('-')}`);
     card?.classList.add('fullscreen-card');
     if (card && card.requestFullscreen) {
       card.requestFullscreen(); // Standard syntax
@@ -93,6 +99,10 @@ export default function Home() {
 
   
   useEffect(() => {
+    // GENERATE USER HOMEPAGE FEED START
+    // Generate User Homepage Feed displays newest episodes from user's subscribed podcasts. Not yet, but will want it to likely be newest first, to start
+    // currently using dummy data in body
+    // sends RSS urls to flask-embeddings-api, which uses feed-parser to return podcast info needed to render individual episodes here in the UI
     fetch('http://127.0.0.1:5000/get-multiple-feeds-formatted', {
       method: 'POST',
       headers: {
@@ -108,11 +118,13 @@ export default function Home() {
       console.log(response);
       return response; 
   })
-    .then((feed: string[][]) =>  feed.map(item => Object.assign({}, {title: item[0], author: item[1], image: item[2], audio: item[3]})))
+  // using podcast data returned from feed_parser in flask-embeddings-api, creates UI object feed to render playable episode cards
+    .then((feed: string[][]) =>  feed.map(item => Object.assign({}, {title: item[0], author: item[1], image: item[2], audio: item[3], keyName: item[4], episodeName: item[5]})))
     .then(feed => setUserFeed(feed));
     console.log('USER POD FEED')
     console.log(userFeed);
   }, []);
+  // GENERATE USER HOMEPAGE FEED END
 
   return (
     <main>
@@ -124,25 +136,25 @@ export default function Home() {
          {/* <div className="feed-wrapper bg-gradient-to-r from-blue-300 to-purple-800" style={{ height: '90vh', overflowY: 'scroll', width: '75vw' }}> */}
          <div className={`feed-wrapper ${showFeed ? 'show' : 'hide'} bg-gradient-to-r from-blue-300 to-purple-800 mt-10`} style={{ height: '90vh', overflowY: 'scroll', width: '85vw' }}>
          { 
-          userFeed?.map((feed) => 
-            <div className={feed.title.split(' ').join('-')}>
-                  <button type="button" className={`episode-arrow ${feed.title === nowPlaying ? 'show' : 'hide'} text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`} onClick={handleEpisodeFullScreen}>
+          userFeed?.map((podcast) => 
+            <div key={podcast.keyName + 'wrapper'} className={podcast.title.split(' ').join('-')}>
+                  <button type="button" className={`episode-arrow ${podcast.title === nowPlaying ? 'show' : 'hide'} text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`} onClick={handleEpisodeFullScreen}>
                     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                     </svg>
                   </button>
-              <MainFeed title={feed.title} image={feed.image} author={feed.author} audio={feed.audio}/>
+              <MainFeed key={podcast.keyName} title={podcast.title} image={podcast.image} author={podcast.author} audio={podcast.audio} episodeName={podcast.episodeName}/>
               {/* <AudioPlayer url={feed.audio}/> */}
-              <PremadeAudioPlayer url={feed.audio} onPlay={handleCurrentlyPlaying} startTime={0}/>
+              <PremadeAudioPlayer key={podcast.keyName + 'audio'} url={podcast.audio} onPlay={handleCurrentlyPlaying} startTime={0}/>
             </div>
           )}
           </div>
           <button type="button" className={`feed-arrow ${showFeed ? 'show' : 'hide'} text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`} onClick={handleFeedDisplay}>
             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
             </svg>
           </button>
-          <button type="button" className={`feed-button ${showFeed ? 'show' : 'hide'} bg-yellow-500 text-black`} onClick={handleFeedDisplay}>My podcasts</button>
+          <button type="button" className={`feed-button ${showFeed ? 'show' : 'hide'} bg-yellow-500 text-black`} onClick={handleFeedDisplay}>{arrowButtonText}</button>
 
          </div>
       </div>

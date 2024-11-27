@@ -8,7 +8,8 @@ export interface SearchBoxProps {
 }
 
 export interface TimeStampSearchResult {
-    audio_url: string;
+  //audio_url property is dummy now, will come as a metadata property when dynamic search is live
+    audio_url: string[];
     documents: string[];
     time_begins: number[];
     pod: string;
@@ -29,6 +30,7 @@ export interface SearchResultRoot {
     speaker: string
     time_begin: number
     time_end: string
+    streaming_mp3: string
   }
   
 const SearchBox = () => {
@@ -58,7 +60,8 @@ const SearchBox = () => {
             console.log(response);
             return response; 
         })
-          .then((results: SearchResultRoot[]) =>  results.map((item, index) => Object.assign({}, {audio_url: item.audio_link, documents: item.documents[0], time_begins: item.metadatas[0].map(metas => metas.time_begin), pod: index === 0 ? "Give-the-People-What-They-Want" : "Subliminal-Jihad"})))
+        // rewrite this to be performant/not use repetitive maps
+          .then((results: SearchResultRoot[]) =>  results.map((item, index) => Object.assign({}, {audio_url: item.metadatas[0].map(metas => metas.streaming_mp3), documents: item.documents[0], time_begins: item.metadatas[0].map(metas => metas.time_begin), pod: index === 0 ? "Give-the-People-What-They-Want" : "Subliminal-Jihad"})))
           .then(results => setTopTen(results));
         
     };

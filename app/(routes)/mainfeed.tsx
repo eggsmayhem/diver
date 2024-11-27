@@ -33,16 +33,19 @@ export interface FormattedFeed {
     image: string;  
     author: string;
     audio: string;
+    keyName?: string;
+    episodeName: string;
 }
 
-export default function MainFeed({title, author, image, audio}: FormattedFeed) {
+export default function MainFeed({title, author, image, audio, episodeName}: FormattedFeed) {
     return (
       <div className="flex flex-col gap-2 place-items-center episode-card bg-neutral-950 bg-opacity-50 my-2 text-center mx-2 py-2">
         {/* <div>{episodeFeed.feed.title}</div>
         <div>{episodeFeed.feed}</div> */}
         <div>{title}</div>
-        <div>{author}</div>
+        <div>{episodeName}</div>
         <img style={{height: '150px', width: '150px'}} src={image} />
+        <div>{author}</div>
         {/* <div style={{textAlign: 'center'}} dangerouslySetInnerHTML={{__html: subtitle_detail}}/> */}
         {/* <audio src={audio}>Audio {audio}</audio> */}
       </div>

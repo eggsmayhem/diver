@@ -32,6 +32,7 @@ body {
 .feed-wrapper {
   position: absolute;
   left: 0;
+  top: 25px;
   transition: transform 1s ease-in-out;
 }
 
@@ -48,7 +49,7 @@ body {
   left: 74vw;
   width: 120px;
   height: 35px;
-  margin-top: 39vh;
+  margin-top: 47vh;
   transform: rotate(90deg);
   transition: transform 1s ease-in-out;
 } 
