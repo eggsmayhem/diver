@@ -145,7 +145,7 @@ export default function Home() {
                   </button>
               <MainFeed key={podcast.keyName} title={podcast.title} image={podcast.image} author={podcast.author} audio={podcast.audio} episodeName={podcast.episodeName}/>
               {/* <AudioPlayer url={feed.audio}/> */}
-              <PremadeAudioPlayer key={podcast.keyName + 'audio'} url={podcast.audio} onPlay={handleCurrentlyPlaying} startTime={0}/>
+              <PremadeAudioPlayer key={podcast.keyName + 'audio'} url={podcast.audio} onPlay={handleCurrentlyPlaying} startTime={25}/>
             </div>
           )}
           </div>
