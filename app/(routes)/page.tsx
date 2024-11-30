@@ -51,6 +51,7 @@ export default function Home() {
   /**
    * 
    */
+  const [playerFromSearch, setPlayerFromSearch] = useState<boolean>(false);
 
   const [userFeed, setUserFeed] = useState<FormattedFeed[]>([]);
   const [showFeed, setShowFeed] = useState<boolean>(true);

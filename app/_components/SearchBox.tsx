@@ -86,6 +86,7 @@ export interface SearchResultRoot {
   
 const SearchBox = () => {
     // const [topTen, setTopTen] = useState<TimeStampSearchResult[]>([]);
+    const [playerFromSearch, setPlayerFromSearch] = useState<boolean>(true);
     const [topTen, setTopTen] = useState<SinglePodcastFormattedSearchResults[][]>([]);
     const [searchInput, setSearchInput] = useState<string>("");
     const [clickedPodUrl, setClickedPodUrl] = useState<string>("");
