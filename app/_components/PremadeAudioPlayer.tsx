@@ -1,6 +1,7 @@
 
 import { on } from 'events';
 import React, { useState, useEffect, useRef } from 'react';
+import H5AudioPlayer from 'react-h5-audio-player';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { start } from 'repl';
@@ -10,15 +11,19 @@ export interface AudioPlayerProps {
     startTime: number;
 }
 const PremadeAudioPlayer = ({ url, startTime }: AudioPlayerProps) => {
-  
+  // const playerRoot: H5AudioPlayer = document.querySelector(url+"audio-player-root") as H5AudioPlayer;
+  // const audioRef = useRef<H5AudioPlayer>(playerRoot);
+      
+
     const [curTime, setCurTime] = useState<number>(startTime);
     const [timeUpdate, setTimeUpdate] = useState<number>(0);
 
     const [timeOne, setTimeOne] = useState<number>(-1);
     const [timeTwo, setTimeTwo] = useState<number>(100000);
     // const [seeking, setSeeking] = useState<boolean>(false);
+    // const [loadedUrl, setLoadedUrl] = useState<string>((url:string => url:string);
 
-    const audio_element: HTMLAudioElement | null = document.querySelector("audio");
+ 
     console.log('Audio url passed into player from parent');
     console.log(url);
     console.log('Start time right after passed into player component');
@@ -26,6 +31,20 @@ const PremadeAudioPlayer = ({ url, startTime }: AudioPlayerProps) => {
     console.log('Start time IN STATE right after passed into player component');
     console.log(curTime);
 
+  //   useEffect(() => {
+  //     setCurTime(startTime);
+  //     if (audioRef.current) {
+  //         audioRef.current.currentTime = startTime;
+  //     }
+  // }, [startTime]);
+
+  // useEffect(() => {
+  //     if (audioRef.current) {
+  //         audioRef.current.audio.src = url;
+  //         audioRef.current.currentTime = startTime;
+  //         audioRef.current.play();
+  //     }
+  // }, [url]);
     // if (startTime !== 0) {
     //     useEffect(() => {
             
@@ -68,6 +87,8 @@ const PremadeAudioPlayer = ({ url, startTime }: AudioPlayerProps) => {
     //   console.log('audio elemnt time updated to ' + curTime)
     //   console.log('actual value of audio.currentTime is ' + audio_element?.currentTime);
     // }
+
+   
     const onCanPlayHandler = (e: Event) => {
       const audioPlay = e.target as HTMLAudioElement;
       // const audio_element: HTMLAudioElement | null = document.querySelector("audio");
@@ -78,8 +99,24 @@ const PremadeAudioPlayer = ({ url, startTime }: AudioPlayerProps) => {
         audioPlay.dispatchEvent(new Event('timeupdate'));
       }
       console.log('audio elemnt time updated to ' + curTime)
-      console.log('actual value of audio.currentTime is ' + audio_element?.currentTime);
+      // console.log('actual value of audio.currentTime is ' + audio_element?.currentTime);
     }
+
+    //this one works, but only when parent component SearchBox changes the URL and thus reloads this component
+    const onNewPlayHandler = (e: any) => {
+      e.target.currentTime = startTime;
+    }
+    // const onNewPlayHandler = (e: any) => {
+    //   // setCurTime(startTime);
+    //   // if (!hasReloaded) { 
+    //   //   setHasReloaded(true);
+    //   //   e.target.load();
+    //   // }
+    //   // e.target.currentTime = curTime;
+    //   e.target.load();
+    //   e.target.currentTime = startTime;
+    //   e.target.load();
+    // }
 
     // componentDidUpdate() {
 
@@ -110,21 +147,49 @@ const PremadeAudioPlayer = ({ url, startTime }: AudioPlayerProps) => {
     //I believe below is the actual HM5 player, child of this PremadeAudioPlayer component
     console.log(document.querySelector("audio")?.currentTime);
     return (
-    <AudioPlayer
-    //all the changes up until now made this autoplay trigger all the pods, which I thought would happen, so right track. 
-    //on load, play, or something else, we need to run onPlayHandler or something similar to upate current time 
+      <AudioPlayer
+      className={url+"audio-player-root"}
       autoPlay
       src={url}
-      // onPlay={onPlayHandler}
-      onListen={e => onCanPlayHandler(e)}
-      // onSeeked={onPlayHandler}
-      defaultCurrentTime={25}
-      timeFormat="auto"
-    //   onListen={handleTimeFromAudio}
+      // ref={audioRef}
+      // onLoadedMetaData={onNewPlayHandler}
+      onLoadedMetaData={onNewPlayHandler}
+    //   onListen={setPlayerProgress}
       showFilledVolume={true}
       showFilledProgress={true}
       progressJumpStep={5000}
     />
+    //   <AudioPlayer
+    //   className={url+"audio-player-root"}
+    //   autoPlay
+    //   src={url}
+    //   ref={audioRef}
+    //   // onLoadedMetaData={onNewPlayHandler}
+    //   onLoadedMetaData={() => {
+    //     if (audioRef.current) {
+    //         audioRef.current.currentTime = startTime;
+    //     }
+    // }}
+    // //   onListen={setPlayerProgress}
+    //   showFilledVolume={true}
+    //   showFilledProgress={true}
+    //   progressJumpStep={5000}
+    // />
+    // <AudioPlayer
+    // //all the changes up until now made this autoplay trigger all the pods, which I thought would happen, so right track. 
+    // //on load, play, or something else, we need to run onPlayHandler or something similar to upate current time 
+    //   autoPlay
+    //   src={url}
+    //   // onPlay={onPlayHandler}
+    //   onListen={e => onCanPlayHandler(e)}
+    //   // onSeeked={onPlayHandler}
+    //   defaultCurrentTime={25}
+    //   timeFormat="auto"
+    // //   onListen={handleTimeFromAudio}
+    //   showFilledVolume={true}
+    //   showFilledProgress={true}
+    //   progressJumpStep={5000}
+    // />
   );
 };
   

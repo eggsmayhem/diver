@@ -94,6 +94,8 @@ const SearchBox = () => {
     const [startTime, setStartTime] = useState<number>(0);
 
 
+
+
     const onSearch = () => {
         const searchBar = document.getElementById("own-pod-search") as HTMLInputElement;
         setSearchInput(searchBar.value);
@@ -187,7 +189,7 @@ const SearchBox = () => {
                   <div className="results-text-wrapper">
                     <div className="text-center italic">Results</div>
                     {topTen[i].map((episode, index) => (
-                      <div key={episode.podcast+episode.uniqueId}>
+                      <div key={episode.uniqueId+episode.time_begin}>
                       
                         <div className="flex flex-col">
                           <button key={index} onClick={e =>loadPlayer(e, episode.time_begin, episode.streaming_url)}>{episode.queryResultText}</button>
